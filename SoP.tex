@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Linespread command allows you to change line spacing for the entire document
+\linespread{1.18}
+
+% Tweak page margins
+\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.75in}
+
+\addtolength{\topmargin}{-.875in}
+\addtolength{\textheight}{1.75in}
+
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\Hrule}{\rule{\linewidth}{0.3mm}}
+
+% Project-specific macros
+\newcommand{\graphite}{GRAPHITE\xspace} 
+\newcommand{\wave}{WAVE\xspace}
+
+% School-specific macros
+\newcommand{\schoolShort}{Stanford\xspace}
+\newcommand{\school}{Stanford\xspace}
+\newcommand{\schoolLong}{Stanford University\xspace}
+
+\newcommand{\profOne}{Prof. A\xspace}
+\newcommand{\profTwo}{Prof. B\xspace}
+\newcommand{\profThree}{Prof. C\xspace}
+
+% Creates header for each page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\header\hskip\linepagesep\vfootline\thepage}
+\newskip\linepagesep \linepagesep 5pt\relax
+\def\vfootline{%
+    \begingroup
+    	\rule[-10pt]{0.75pt}{25pt}
+    \endgroup
+}
+\def\header{%
+	\begin{minipage}[]{120pt}
+		\hfill Noor Islam S. Mohammad 		% Applicant Name
+    	\par \hfill 				% Formatting boilerplate
+    	CS, PhD, Fall 2026 			% Area, Program, Cycle, Year
+    \end{minipage}
+}
+\fancyhead[RE,LO]{Statement of Purpose | \schoolLong}
+\renewcommand\headrulewidth{0pt}
+
+\begin{document}
+
+%% Why do you wish to attend graduate school? What would you like to study? Keep it broad, details come in later
+
+My decision to pursue graduate studies stems naturally from my experiences as a master’s student at \textbf{[Your University]} and, more recently, as a research staff member in the \textbf{Systems Group} at \textbf{[Company/Institution]}. My primary interests lie in \textbf{distributed systems} and \textbf{data-intensive cloud computing}, with a focus on the system-level challenges of \textbf{scaling and deploying machine learning models}. These research efforts have led to publications at leading venues, including \textbf{OSDI [1]} and \textbf{ICDE [3]}. Graduate studies at \school\ will enable me to advance these interests and represent the first step toward my long-term goal of a research career.
+
+%% Describe 2-3 past projects relevant to your research interests. (10-12 lines per project)
+
+% PROJECT 1: P3 - Distributed Graph Neural Network Training at Scale
+
+In recent years, \textbf{Graph Neural Networks (GNNs)} have emerged as powerful models for learning on graph-structured data. Existing systems for \textbf{distributed GNN training} often extend designs from deep neural network (DNN) training or graph processing frameworks. While seemingly natural, such retrofitting inherits tradeoffs not suited for GNN workloads, leading to communication stalls, underutilized compute resources, and scalability bottlenecks. 
+
+To address these challenges, I collaborated with \textbf{[Your Collaborators]} to develop the $\mathbf{P^{3}~[1]}$ system, published at \textbf{OSDI 2021}. Unlike traditional partitioners (e.g., METIS) that focus solely on the structural dimension, $P^{3}$ introduces an independent partitioning across both feature and structural dimensions. Combined with intra-layer model parallelism and pipelining, this enables a novel push--pull distributed training strategy that achieves high resource utilization while minimizing communication and partitioning overheads. We are now extending this work by integrating pipelined push--pull parallelism into Microsoft’s DeepGraph engine to scale training across thousands of GPUs.
+
+% PROJECT 2: SURGEON - Early-Exit Inference
+
+More recently, I have been exploring \textbf{model serving systems}. Large-scale pre-trained language models such as BERT have significantly advanced NLP applications, but their computational demands make efficient serving challenging. A promising approach is the use of early-exit deep neural networks (EE-DNNs), which exploit differences in sample classification difficulty to achieve better accuracy--latency trade-offs by exiting inference early. However, we observe that coarse-grained batching---a common technique for throughput improvement---becomes suboptimal when samples dynamically exit at different stages, reducing hardware utilization. To address this, with \textbf{Your Research group members}, I proposed \textbf{SURGEON [2]}, a system that takes an EE-DNN model and SLA constraints as input, and generates an optimal partition and service assignment across heterogeneous resources using as few GPUs as possible. SURGEON consolidates batches at partition boundaries to improve hardware efficiency and employs dynamic programming to determine adaptive partitioning strategies. I am currently evaluating SURGEON across diverse EE-DNN architectures and service-level objectives.
+
+% PROJECT 3: Graphite - Distributed Temporal Graph Processing
+
+Before joining MSR, I completed my master’s (by research) in Computer Science at \textbf{[University, Country]}, advised by \textbf{[Supervisors]}. My thesis investigated system-level optimizations for \textbf{distributed temporal\footnote{Graphs whose structure and attributes evolve} graph analytics}. Existing frameworks often fail to scale due to redundant computation and excessive messaging across time points. To address this, I co-developed \textbf{\graphite[3]}, which introduces the \emph{time-interval} as the data-parallel unit. A novel \emph{time-warp} operator automatically partitions a vertex’s temporal state and temporally aligns messages, thereby reducing redundant execution and communication. \graphite was published in \textbf{ICDE 2020} and is currently used in the \textbf{impact industry or Uni} for temporal analytics, including contact tracing.  I also worked on \textbf{\wave[4]}, an extension of \graphite that incorporates \emph{dependency-driven incremental processing}. By tracking dependencies, \wave incrementally propagates changes across intermediate values, significantly reducing recomputation. This work was recognized at the \textbf{2nd ACM SRC (Graduate Category) @ SOSP 2019}, where it was a finalist and awarded the Bronze Medal.
+
+%% Non-research accomplishments (e.g., Grades, Academic Service, Work experience) (10-12 lines)
+
+% Grades
+I realize the need for a strong theoretical foundation to pursue advanced research. In this direction, I have always striven for academic excellence -- I stood top of the class during both bachelor's and master's studies.  
+% TA and Academic Service
+My time at \textbf{YOUR UNIV} offered me opportunities to assist with two graduate courses, and to participate in the Artifact Evaluation Committee (AEC)\footnote{AEC SOSP 2019, OSDI 2020, and ASPLOS 2020} and the Shadow Program Committee\footnote{Shadow PC EuroSys 2021 and 2022} at several conferences. These engagements helped me learn how to organize and articulate ideas effectively; faux-PC discussions taught me to interpret reviewer subtext around rebuttals, while comparing submitted versus accepted papers at EuroSys 2021 gave me valuable insight into how feedback shapes stronger research contributions.  
+% Industry
+The time I spent in industry, both before and after graduate school, helped me develop essential soft skills -- time management, teamwork, and cooperation -- which I believe are crucial for thriving in demanding academic environments.
+
+%% Why this school? List professors you would like to work with and why? (10-12 Lines)
+I believe my experience with data-intensive systems at Microsoft Research has provided me with a unique perspective on the practical challenges faced by developers and cloud operators in deploying, operating, and monitoring large-scale computer systems. This background makes me well-prepared to address big-picture questions in the field.  At \schoolShort, I aim to advance research on efficient \textbf{systems infrastructure and tooling for emerging data-intensive workloads}. As machine learning models grow in scale and complexity, particularly in safety- and performance-critical applications, the demand for compute, resiliency, resource-efficiency, and affordability grows in tandem. I find these challenges especially exciting to pursue. \schoolShort’s leadership in data-intensive systems research, world-class faculty, and interdisciplinary culture make it an ideal environment for my graduate study. I am particularly inspired by \textbf{\profOne}, \textbf{\profTwo}, and \textbf{\profThree}, whose work (e.g., Spark, Snorkel, Shinjuku, PipeDream, ROC, INFaaS, GNNAutoScale, GraphSAGE) has influenced my thesis and research papers, and with whom I would be eager to collaborate.
+
+%% Summary (3-4 Lines)
+
+In summary, I believe I bring with me research experience, industry-sharpened programming and soft skills, and above all, an insatiable desire to learn and excel. I look forward to the next milestone in my life -- a PhD in Computer Science from \school. 
+
+% Add some blank space between text and references
+\vspace{0.125in}
+
+% References
+
+% **NOTE**: There are better ways to manage citations in LaTeX, most notably using BibTeX. I wanted to have greater control over how citations were spaced and formatted, and therefore ended up hardcoding them here. Your mileage may vary!
+
+[1] \underline{First Author}, Second Author, ``P\textsuperscript{3}: KJHS'', In Proceedings of the 15th USENIX Symposium on Operating Systems Design and Implementation (\textbf{OSDI 2021}), July 2021. \url{your journal DOI}
+
+[2] \underline{First Author}, Second Author, ``HGFD'' (\textbf{Ongoing Project})
+
+[3] \underline{First Author}, Second Author, ``ABG'', In Proceedings of the 36th IEEE International Conference on Data Engineering (\textbf{ICDE 2020}), Dallas, Texas, April 2020. \url{your journal DOI}
+
+[4] \underline{First Author}, ``ADC'', 2nd ACM Student Research Competition (\textbf{SRC}) at the 27th Symposium on Operating Systems Principles (\textbf{SOSP 2019}), Ontario, Canada, Oct 2019. \url{your journal DOI}
+
+\end{document}
+
+% That's All Folks.
+
+% Best of luck, you got this! :)
